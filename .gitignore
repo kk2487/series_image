@@ -1,0 +1,14 @@
+*.npy
+*.swp
+*.mp4
+*.dat
+*.avi
+*.jpg
+*.xlsx
+dataset/
+models/
+depth/
+ir/
+rgb/
+npy_arrays/
+__pycache__/
