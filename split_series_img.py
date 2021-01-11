@@ -57,6 +57,13 @@ if __name__ == '__main__':
 		gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 		draw = gray.copy()
 		series.append(gray)
+		
+
+		for c in range(len(classes)):
+			cv2.putText(draw,str(c)+":"+classes[c],(20,20+c*40),cv2.FONT_HERSHEY_COMPLEX_SMALL,1.2,(255),1)
+		cv2.putText(draw,str(len(classes))+":"+"X",(20,20+len(classes)*40),cv2.FONT_HERSHEY_COMPLEX_SMALL,1.2,(255),1)
+		draw = cv2.resize(draw, (int(gray.shape[1]/2), int(gray.shape[0]/2)))
+		cv2.imshow("src", draw)
 		if(i%num_frame == 0):
 			class_index = input()
 			if(class_index == 'q'):
@@ -66,19 +73,12 @@ if __name__ == '__main__':
 				path = "./dataset/"+str(classes[class_index])
 				file_num = len([lists for lists in os.listdir(path) if os.path.isdir(os.path.join(path, lists))])
 				print("---",file_num)
-				os.makedirs(path+"/"+str(file_num).zfill(6))
+				os.makedirs(path+"/"+str(classes[class_index])+"_"+str(file_num).zfill(6))
 				for n in range(num_frame):
-					path = "./dataset/"+str(classes[class_index])+"/"+str(file_num).zfill(6)+"/"+"image_"+str(n).zfill(5)+".jpg"
+					path = "./dataset/"+str(classes[class_index])+"/"+str(classes[class_index])+"_"+str(file_num).zfill(6)+"/"+"image_"+str(n).zfill(5)+".jpg"
 					cv2.imwrite(path, series[n])
 
-				series = []
-
-		for c in range(len(classes)):
-			cv2.putText(draw,str(c)+":"+classes[c],(20,20+c*40),cv2.FONT_HERSHEY_COMPLEX_SMALL,1.2,(255),1)
-		cv2.putText(draw,str(len(classes))+":"+"X",(20,20+len(classes)*40),cv2.FONT_HERSHEY_COMPLEX_SMALL,1.2,(255),1)
-		draw = cv2.resize(draw, (int(gray.shape[1]/2), int(gray.shape[0]/2)))
-		cv2.imshow("src", draw)
-
+			series = []
 		if cv2.waitKey(1) & 0xFF == ord('q'):
 			cap.release()
 			cv2.destroyAllWindows()

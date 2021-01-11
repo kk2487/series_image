@@ -1,0 +1,45 @@
+python change_index.py
+
+ Ggenerate n_frames files (每一個15frame資料夾裡產生一個n_frame)
+  python utils/n_frames_ucf101_hmdb51.py traindata/1013_eye
+
+ Generate json files(針對train test TXT產生json檔)
+  python utils/ucf101_json.py data/1103
+
+train
+python main4winbus.py --root_path . --video_path traindata/1013_eye --annotation_path data/1103/ucf101_01.json \
+--result_path train_result/results_1107 --dataset ucf101 --n_classes 400 --n_finetune_classes 2 \
+--pretrain_path resnet-34-kinetics.pth --ft_begin_index 4 \
+--model resnet --model_depth 34 --resnet_shortcut A --batch_size 16 --n_threads 4 --checkpoint 5 --n_epochs 200 --sample_duration 10 --n_val_samples 1
+
+
+train
+python main4winbus.py --root_path . --video_path traindata/1013_eye --annotation_path data/1013/ucf101_01.json \
+--result_path train_result/results_07 --dataset ucf101 --n_classes 400 --n_finetune_classes 2 \
+--pretrain_path resnet-34-kinetics.pth --ft_begin_index 4 \
+--model resnet --model_depth 34 --resnet_shortcut A --batch_size 16 --n_threads 4 --checkpoint 5 --n_epochs 200 --sample_duration 10 --n_val_samples 1
+
+continue train
+python main4winbus.py --root_path . --video_path traindata/1013_eye --annotation_path data/1103/ucf101_01.json \
+--result_path train_result/results_1103 --dataset ucf101 --resume_path train_result/results_1103/save_190.pth \
+--model_depth 34 --n_classes 2 --batch_size 8 --n_threads 4 --checkpoint 50 --n_epochs 500
+
+
+python main4winbus.py --root_path . --video_path traindata/winbus-06-2RoHf --annotation_path data/winbusTrainTest-06/winbus_06-2-3-4_test2times.json \
+--result_path train_result/results_07 --dataset ucf101 --n_classes 400 --n_finetune_classes 4 \
+--pretrain_path resnet-34-kinetics.pth --ft_begin_index 4 \
+--model resnet --model_depth 34 --resnet_shortcut A --batch_size 16 --n_threads 4 --checkpoint 5 --n_epochs 15 --sample_duration 16 --n_val_samples 1
+
+
+python main4winbus.py --root_path . --video_path traindata/winbus-06-2RoHf --annotation_path data/winbusTrainTest-06/winbus_06-2-3-4_test2times.json --result_path trainresults --dataset ucf101 --model_depth 50 --n_classes 4 --batch_size 16 --n_threads 4 --resnet_shortcut B --n_val_samples 1 --resume_path trainresults/results_06/best.pth --test_weight --sample_duration 15 --no_train
+
+test
+python main4winbus.py --root_path . --video_path traindata/1013_eye --annotation_path data/1103/ucf101_01.json --result_path train_result/results_07 --dataset ucf101 --model_depth 50 --n_classes 2 --batch_size 16 --n_threads 4 --resnet_shortcut A --n_val_samples 1 --resume_path train_result/results_07/best.pth --test_weight --sample_duration 10 --no_train --no_val --test
+
+test
+python main4winbus.py --root_path . --video_path traindata/1013_eye --annotation_path data/1103/ucf101_01.json --result_path train_result/results_1107 --dataset ucf101 --model_depth 50 --n_classes 2 --batch_size 16 --n_threads 4 --resnet_shortcut A --n_val_samples 1 --resume_path train_result/results_1107/save_190.pth --test_weight --sample_duration 10 --no_train --no_val --test
+
+python main4winbus.py --root_path . --video_path traindata/test --annotation_path data/1103/test_01.json --result_path train_result/results_1107 --dataset ucf101 --model_depth 50 --n_classes 2 --batch_size 16 --n_threads 4 --resnet_shortcut A --n_val_samples 1 --resume_path train_result/results_1107/save_190.pth --test_weight --sample_duration 10 --no_train --no_val --test
+
+
+python eval.py
