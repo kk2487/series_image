@@ -1,6 +1,0 @@
-0 drink
-1 safe
-2 talk_left
-3 talk_right
-4 text_left
-5 text_right

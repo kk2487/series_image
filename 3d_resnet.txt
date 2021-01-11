@@ -1,0 +1,19 @@
+將影片分類成動作類別資料夾
+python split_series_img.py
+
+生成nframe 計算有幾張照片  (指定圖像資料夾位置)
+python n_frames_ucf101_hmdb51.py data
+
+生成trainlist.txt, testlist.txt(指定圖像資料夾位置)
+python create_pathe_classes.py data
+
+生成json檔案(指定trainlist.txt, testlist.txt路徑位置)
+python ucf101_json.py data0111
+
+Train (調整.json路徑 , 調整result_path  , 分類數量)
+
+python main4winbus.py --root_path . --video_path data --annotation_path data0110/ucf101_01.json --result_path train_result/results_0110 --n_classes 6 --batch_size 64 --n_threads 12
+
+Test( 調整.json路徑 , 調整result_path  , 選.pth路徑,  sample_duration-動作張數 )
+
+python main4winbus.py --root_path . --video_path data --annotation_path data0111/ucf101_01.json --result_path train_result/results_0111 --n_classes 6 --resume_path train_result/results_0111/best.pth --no_train --no_val --test --sample_duration 10 --test_weight
